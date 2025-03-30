@@ -31,9 +31,6 @@ public class CharacterItemStack : ItemStorage
         int i = 0;
         foreach (var item in Items)
         {
-            if (item.State == ItemState.Transferring)
-                continue;
-
             var pos = GetItemPosition(i);
             var targetPos = lastPos;
             targetPos.y = _stackOriginPoint.position.y + pos.y;

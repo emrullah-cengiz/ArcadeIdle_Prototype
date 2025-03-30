@@ -1,22 +1,25 @@
+using Sirenix.OdinInspector;
+
 /// <summary>
-/// Specialized storage that automatically spawns a new item when one is taken.
+/// Specialized storage that automatically spawns a new item when one is taken. It's works like a infinite item source
 /// </summary>
+[InfoBox("It's works like a infinite item source")]
 public class ItemSpawnerStorage : ItemStorage
 {
     private Item.Pool _itemPool;
 
-    protected override void Start()
+    protected override void Awake()
     {
-        base.Start();
+        base.Awake();
 
         _itemPool = ServiceLocator.Resolve<Item.Pool>();
 
         SpawnOneItem();
     }
 
-    public override Item Pop()
+    public override Item Pop(bool removeItem = true)
     {
-        var item = base.Pop();
+        var item = base.Pop(removeItem);
 
         SpawnOneItem();
 

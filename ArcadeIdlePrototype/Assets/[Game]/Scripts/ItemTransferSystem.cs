@@ -4,40 +4,51 @@ using UnityEngine;
 
 public class ItemTransferSystem : MonoBehaviour
 {
-    private CancellationTokenSource _cancellationTokenSource;
+    private CancellationTokenSource _bulkTransferCTS;
 
-    public void TryToStartTransfer(ItemStorage storage1, ItemStorage storage2)
+    public async UniTask TryToStartTransfer(ItemStorage storage1, ItemStorage storage2, bool singleItem = false)
     {
         var from = storage1.Type == StorageType.Collectable ? storage1 : storage2;
-        var to = storage1.Type == StorageType.Depositable ? storage1 : storage2;
+        var to = storage1.Type == StorageType.Storable ? storage1 : storage2;
 
-        TryToStartDirectTransfer(from, to);
+        await TryToStartDirectTransfer(from, to, singleItem);
     }
 
-    public void TryToStartDirectTransfer(ItemStorage from, ItemStorage to)
+    public async UniTask TryToStartDirectTransfer(ItemStorage from, ItemStorage to, bool singleItem = false)
     {
-        if (!IsValidForTransfer(from, to))
+        if (!IsTransferValid(from, to))
             return;
 
-        StopTransfer();
-        _cancellationTokenSource = new CancellationTokenSource();
-
-        TransferItems(from, to, _cancellationTokenSource).Forget();
+        await TransferItems(from, to, singleItem);
     }
 
-    public void StopTransfer()
+    private async UniTask TransferItems(ItemStorage from, ItemStorage to, bool singleItem = false)
     {
-        _cancellationTokenSource?.Cancel();
-        _cancellationTokenSource?.Dispose();
-        _cancellationTokenSource = null;
+        _bulkTransferCTS = new CancellationTokenSource();
+
+        while (IsTransferValid(from, to))
+        {
+            await to.Push(from.Pop());
+            if (singleItem)
+                break;
+
+            if (_bulkTransferCTS.IsCancellationRequested)
+                return;
+        }
     }
 
-    private static async UniTask TransferItems(ItemStorage from, ItemStorage to, CancellationTokenSource cts)
-    {
-        while (IsValidForTransfer(from, to))
-            await to.Push(from.Pop(), cts);
-    }
+    public void StopTransfer() => _bulkTransferCTS?.Cancel();
 
-    private static bool IsValidForTransfer(ItemStorage from, ItemStorage to) =>
-        from.HasItem && !to.IsFull;
+    public static bool IsTransferValid(ItemStorage from, ItemStorage to) =>
+        from.HasItem && to.HasSpace &&
+
+        //check for character stack (stack only same type)
+        (!to.ItemType.HasValue || to.Type != StorageType.None || from.ItemType == to.ItemType) &&
+
+        //check for storable type
+        (to.Type != StorageType.Storable || from.ItemType == to.ItemType) &&
+
+        //check for parallel transfers on character interaction
+        (from.Type == StorageType.None || to.Type == StorageType.None ||
+         (from.IsMachineTransfersEnabled && to.IsMachineTransfersEnabled));
 }

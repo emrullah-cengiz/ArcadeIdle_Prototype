@@ -3,15 +3,19 @@ using PoolSystem;
 using UnityEditor.PackageManager;
 using UnityEngine;
 
+[DefaultExecutionOrder(-1)]
 public class GameInstaller : MonoBehaviour
 {
     [SerializeField] private GameSettings _gameSettings;
+
+    private List<IPool> _pools;
 
     private void Awake()
     {
         Application.targetFrameRate = 120;
 
         RegisterServices();
+        InitializePools();
     }
 
     private void Start() => InitializeGame();
@@ -22,32 +26,31 @@ public class GameInstaller : MonoBehaviour
         ServiceLocator.Register(_gameSettings.ItemSettings);
 
         //Pools
-        var pools = RegisterPools();
+        RegisterPools();
 
         //Systems
-
-        InitializePools(pools);
+        ServiceLocator.Register(new ItemSpawner());
     }
 
-    private List<IPool> RegisterPools()
+    private void RegisterPools()
     {
-        var pools = new List<IPool>();
+        _pools = new List<IPool>();
 
         RegisterAndAddToList(new Item.Pool(_gameSettings.ItemSettings.PoolSettings));
-        // RegisterAndAddToList(new Item.Pool(_gameSettings.ItemPoolSettings));
+        //RegisterAndAddToList(new Item.Pool(_gameSettings.ItemSettings.PoolSettings));
 
-        return pools;
+        return;
 
         void RegisterAndAddToList<T>(T pool) where T : class, IPool
         {
             ServiceLocator.Register<T>(pool);
-            pools.Add(pool);
+            _pools.Add(pool);
         }
     }
 
-    private void InitializePools(List<IPool> pools)
+    private void InitializePools()
     {
-        foreach (var pool in pools)
+        foreach (var pool in _pools)
             pool.Initialize();
     }
 

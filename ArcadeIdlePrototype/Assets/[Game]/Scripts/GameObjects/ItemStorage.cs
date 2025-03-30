@@ -5,66 +5,96 @@ using Cysharp.Threading.Tasks;
 using DG.Tweening;
 using Sirenix.OdinInspector;
 using UnityEngine;
+using UnityEngine.Serialization;
 
-public enum StorageType { None, Collectable, Depositable }
+public enum StorageType { None, Collectable, Storable }
 
 /// <summary>
 /// Base class for item storage, managing item stacking and retrieval.
 /// </summary>
 public class ItemStorage : MonoBehaviour
 {
-    [SerializeField] private StorageType _storageType;
+    #region Serialized Fields
+
+    [SerializeField] protected StorageType _storageType;
     [SerializeField] private ItemType _itemType;
     [SerializeField] private int _capacity;
+
+    [SerializeField] [InfoBox("Enables machine-driven transfers on char interactions")]
+    private bool _allowMachineTransfersOnCharacterInteraction = true;
 
     [SerializeField, MinValue(1)] private Vector2Int _layoutSize;
     [SerializeField] private Vector3 _cellSize;
     [SerializeField] private Transform _itemsContainer;
-    [SerializeField] private bool _tweenOnTransfer;
 
+    [FormerlySerializedAs("_tweenItemOnTaken")] [SerializeField]
+    private bool _tweenItemOnAdded;
+
+    #endregion
+
+    #region Properties
+
+    public bool IsMachineTransfersEnabled { get; private set; } = true;
     public StorageType Type => _storageType;
     public virtual ItemType? ItemType => _itemType;
     public bool HasItem => Items.Count > 0;
+    public bool HasSpace => !IsFull;
     public bool IsFull => Items.Count >= _capacity;
+
+    #endregion
+
+    #region Events
+
+    public event Action OnItemPushed;
     public event Action OnEmpty;
+    public event Action OnHasSpace;
+    public event Action OnHasItem;
 
-    private CancellationTokenSource _cancellationTokenSource;
-    protected List<Item> Items;
+    #endregion
 
-    protected virtual void Start() => Items = new List<Item>();
+    protected List<Item> Items = new();
 
-    public async UniTask Push(Item item, CancellationTokenSource cancellationTokenSource)
+    protected virtual void Awake() => Items = new List<Item>();
+
+    public async UniTask Push(Item item)
     {
-        if (IsFull)
-            return;
-
-        _cancellationTokenSource = cancellationTokenSource;
-
         Items.Add(item);
 
         item.transform.SetParent(_itemsContainer, worldPositionStays: true);
 
-        if (_tweenOnTransfer)
-            await item.transform.MoveCurved(GetItemPosition(Items.Count - 1), 10, .3f, .2f, .15f,
-                                            cancellationTokenSource.Token);
-        else
-            await UniTask.WaitForSeconds(.2f);
+        if (_tweenItemOnAdded)
+            item.MoveCurved(transform.position + GetItemPosition(Items.Count - 1)).Forget();
+        await UniTask.WaitForSeconds(.2f);
+
+        OnItemPushed?.Invoke();
+
+        if (Items.Count == 1)
+            OnHasItem?.Invoke();
     }
 
-    public virtual Item Pop()
+    public virtual Item Pop(bool removeItem = true)
     {
-        if (Items.Count == 0)
+        if (!HasItem)
             return null;
 
         var item = Items[^1];
-        Items.RemoveAt(Items.Count - 1);
+        if (removeItem)
+            Items.RemoveAt(Items.Count - 1);
 
-        _cancellationTokenSource?.Cancel();
-
-        if (!HasItem)
+        if (Items.Count == 0)
             OnEmpty?.Invoke();
+        else if (Items.Count == _capacity - 1)
+            OnHasSpace?.Invoke();
 
         return item;
+    }
+
+    // public Item Peek() => Pop(removeItem: false);
+
+    public void OnCharacterInteract(bool s)
+    {
+        if (!_allowMachineTransfersOnCharacterInteraction)
+            IsMachineTransfersEnabled = !s;
     }
 
     protected Vector3 GetItemPosition(int index)
@@ -87,8 +117,6 @@ public class ItemStorage : MonoBehaviour
     [Button]
     void DestroyItems()
     {
-        _cancellationTokenSource?.Cancel();
-
         foreach (var item in Items)
             Destroy(item.gameObject);
 

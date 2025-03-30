@@ -11,13 +11,13 @@ namespace PoolSystem
     /// <summary>
     /// Abstract base class for a generic object pool managing object spawning, despawning, and pool expansion based on enum types.
     /// </summary>
-    public abstract class Pool<TObject, TEnum> : IPool<TObject, TEnum> where TObject : Component
-                                                                       where TEnum : Enum
+    public class Pool<TObject, TEnum> : IPool<TObject, TEnum> where TObject : Component
+                                                              where TEnum : Enum
     {
         private readonly PoolSettings _poolSettings;
         private readonly Dictionary<TEnum, (Stack<TObject>, Transform)> _pools;
 
-        protected Pool(PoolSettings poolSettings)
+        public Pool(PoolSettings poolSettings)
         {
             _poolSettings = poolSettings;
             _pools = new();
@@ -215,7 +215,7 @@ namespace PoolSystem
     /// </summary>
     public interface IInitializablePoolable<in TInitializationData> : IInitializablePoolable where TInitializationData : IPoolableInitializationData
     {
-        public void OnSpawned(TInitializationData data);
+        public void OnSpawned(TInitializationData data, params object[] additionalArgs);
     }
 
     /// <summary>
