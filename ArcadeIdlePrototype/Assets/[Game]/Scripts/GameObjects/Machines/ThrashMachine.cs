@@ -3,17 +3,21 @@ using Cysharp.Threading.Tasks;
 
 public class ThrashMachine : Machine
 {
-    private void OnEnable() => _storage.OnItemPushed += OnItemPushed;
+    public override MachineType MachineType => MachineType.Trash;
+
+    private void OnEnable() => RawMaterialStorage.OnItemPushed += OnItemPushed;
     private void OnItemPushed() => Execute().Forget();
+
+    protected override bool ExecutionCondition() => true;
 
     protected override async UniTask Execute()
     {
-        if (ExecutionCondition())
+        if (!IsWorking && !ExecutionCondition())
             return;
 
         SetWorking(true);
 
-        _itemSpawner.Despawn(_storage.Pop());
+        _itemSpawner.Despawn(RawMaterialStorage.Pop());
 
         SetWorking(false);
     }

@@ -33,8 +33,11 @@ public class ItemTransferSystem : MonoBehaviour
                 break;
 
             if (_bulkTransferCTS.IsCancellationRequested)
-                return;
+                break;
         }
+
+        from.OnTransferEnd?.Invoke();
+        to.OnTransferEnd?.Invoke();
     }
 
     public void StopTransfer() => _bulkTransferCTS?.Cancel();

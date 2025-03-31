@@ -6,6 +6,8 @@ public class SpawnerMachine : Machine
     // private void OnEnable() => _producedItemStorage.OnEmpty += OnProductStorageEmpty;
     // private void OnProductStorageEmpty() => Execute().Forget();
 
+    public override MachineType MachineType => MachineType.Spawner;
+
     protected override void Start()
     {
         base.Start();
@@ -23,22 +25,21 @@ public class SpawnerMachine : Machine
     }
 
     protected override bool ExecutionCondition() =>
-        base.ExecutionCondition() &&
-        _storage.HasSpace &&
-        _storage.IsMachineTransfersEnabled;
+        ProductStorage.HasSpace &&
+        ProductStorage.IsMachineTransfersEnabled;
 
     protected override async UniTask Execute()
     {
-        if (ExecutionCondition())
+        if (!IsWorking && !ExecutionCondition())
             return;
 
         SetWorking(true);
 
         do
         {
-            var item = _itemSpawner.Spawn(_storage.ItemType!.Value, new ItemData(transform.position));
+            var item = _itemSpawner.Spawn(ProductStorage.ItemType!.Value, new ItemData(transform.position));
 
-            await _storage.Push(item);
+            await ProductStorage.Push(item);
         } while (ExecutionCondition());
 
         SetWorking(false);

@@ -21,11 +21,12 @@ public class ItemStorage : MonoBehaviour
     [SerializeField] private int _capacity;
 
     [SerializeField] [InfoBox("Enables machine-driven transfers on char interactions")]
-    private bool _allowMachineTransfersOnCharacterInteraction = true;
+    private bool _allowMachineTransfersOnAgentInteraction = true;
 
     [SerializeField, MinValue(1)] private Vector2Int _layoutSize;
     [SerializeField] private Vector3 _cellSize;
     [SerializeField] private Transform _itemsContainer;
+    [SerializeField] public Transform AiWaitingPoint;
 
     [FormerlySerializedAs("_tweenItemOnTaken")] [SerializeField]
     private bool _tweenItemOnAdded;
@@ -35,8 +36,12 @@ public class ItemStorage : MonoBehaviour
     #region Properties
 
     public bool IsMachineTransfersEnabled { get; private set; } = true;
+    public bool IsInteractingWithAgent { get; private set; } = false;
     public StorageType Type => _storageType;
     public virtual ItemType? ItemType => _itemType;
+    public int Capacity => _capacity;
+    public int ItemCount => Items.Count;
+    public int TotalSpace => _capacity - Items.Count;
     public bool HasItem => Items.Count > 0;
     public bool HasSpace => !IsFull;
     public bool IsFull => Items.Count >= _capacity;
@@ -45,10 +50,11 @@ public class ItemStorage : MonoBehaviour
 
     #region Events
 
-    public event Action OnItemPushed;
-    public event Action OnEmpty;
-    public event Action OnHasSpace;
-    public event Action OnHasItem;
+    public Action OnItemPushed;
+    public Action<Character> OnInteractWithAgent;
+    public Action OnFullFilled;
+    public Action OnEmpty;
+    public Action OnTransferEnd;
 
     #endregion
 
@@ -62,14 +68,14 @@ public class ItemStorage : MonoBehaviour
 
         item.transform.SetParent(_itemsContainer, worldPositionStays: true);
 
+        if (!HasSpace)
+            OnFullFilled?.Invoke();
+
         if (_tweenItemOnAdded)
             item.MoveCurved(transform.position + GetItemPosition(Items.Count - 1)).Forget();
         await UniTask.WaitForSeconds(.2f);
 
         OnItemPushed?.Invoke();
-
-        if (Items.Count == 1)
-            OnHasItem?.Invoke();
     }
 
     public virtual Item Pop(bool removeItem = true)
@@ -83,18 +89,19 @@ public class ItemStorage : MonoBehaviour
 
         if (Items.Count == 0)
             OnEmpty?.Invoke();
-        else if (Items.Count == _capacity - 1)
-            OnHasSpace?.Invoke();
 
         return item;
     }
 
     // public Item Peek() => Pop(removeItem: false);
 
-    public void OnCharacterInteract(bool s)
+    public void OnAgentInteract(Character character, bool s)
     {
-        if (!_allowMachineTransfersOnCharacterInteraction)
+        if (!_allowMachineTransfersOnAgentInteraction)
             IsMachineTransfersEnabled = !s;
+
+        IsInteractingWithAgent = s;
+        OnInteractWithAgent?.Invoke(character);
     }
 
     protected Vector3 GetItemPosition(int index)

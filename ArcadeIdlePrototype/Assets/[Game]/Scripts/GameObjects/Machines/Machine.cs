@@ -4,11 +4,16 @@ using Sirenix.OdinInspector;
 using UnityEngine;
 using UnityEngine.Serialization;
 
+public enum MachineType { Spawner, Transformer, Trash }
+
 public abstract class Machine : MonoBehaviour
 {
     protected static readonly int IS_WORKING_PARAM = Animator.StringToHash("IsWorking");
 
-    [SerializeField] protected ItemStorage _storage;
+    public abstract MachineType MachineType { get; }
+
+    [SerializeField] public ItemStorage ProductStorage;
+    [SerializeField, PropertyOrder(-1)] public ItemStorage RawMaterialStorage;
 
     [SerializeField] protected ItemTransferSystem _transferSystem;
 
@@ -32,7 +37,7 @@ public abstract class Machine : MonoBehaviour
             _animator.SetBool(IS_WORKING_PARAM, s);
     }
 
-    protected virtual bool ExecutionCondition() => !IsWorking;
+    protected abstract bool ExecutionCondition();
 
 #if UNITY_EDITOR
     [Button]

@@ -7,6 +7,8 @@ using UnityEngine;
 public class GameInstaller : MonoBehaviour
 {
     [SerializeField] private GameSettings _gameSettings;
+    [SerializeField] private MachineManager _machineManager;
+
 
     private List<IPool> _pools;
 
@@ -24,11 +26,13 @@ public class GameInstaller : MonoBehaviour
     {
         //Settings
         ServiceLocator.Register(_gameSettings.ItemSettings);
+        ServiceLocator.Register(_gameSettings.AIWorkerSettings);
 
         //Pools
         RegisterPools();
 
-        //Systems
+        //Systems - Managers
+        ServiceLocator.Register(_machineManager);
         ServiceLocator.Register(new ItemSpawner());
     }
 

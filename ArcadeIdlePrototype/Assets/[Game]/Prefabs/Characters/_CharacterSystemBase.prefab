@@ -81,9 +81,14 @@ MonoBehaviour:
   _storageType: 0
   _itemType: 0
   _capacity: 30
-  _matrixSize: {x: 0, y: 0}
-  _cellSize: {x: 0, y: 0.2, z: 0}
+  _allowMachineTransfersOnAgentInteraction: 1
+  _layoutSize: {x: 1, y: 1}
+  _cellSize: {x: 0, y: 0.08, z: 0}
   _itemsContainer: {fileID: 5346283814843738636}
+  AiWaitingPoint: {fileID: 0}
+  _tweenItemOnAdded: 0
+  _stackOriginPoint: {fileID: 0}
+  _damping: 50
 --- !u!114 &5767005247948938382
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -156,6 +161,7 @@ GameObject:
   - component: {fileID: 1345401068063032419}
   - component: {fileID: 5725489675643886662}
   - component: {fileID: 3365968851575756750}
+  - component: {fileID: 4292064277237300064}
   m_Layer: 0
   m_Name: Character
   m_TagString: Untagged
@@ -263,5 +269,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 662af56d28bf405e8a0d046f0463dcbe, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _character: {fileID: 4292064277237300064}
   _characterItemStack: {fileID: 4774497419790772306}
   _itemTransferSystem: {fileID: 5767005247948938382}
+--- !u!114 &4292064277237300064
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7250810760683694140}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 17ced02e1cd94f858901e85a7c0a2982, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _machineInteractionController: {fileID: 3365968851575756750}
