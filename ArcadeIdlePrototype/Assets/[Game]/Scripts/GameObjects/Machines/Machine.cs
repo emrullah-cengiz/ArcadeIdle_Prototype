@@ -1,8 +1,6 @@
-using System;
 using Cysharp.Threading.Tasks;
 using Sirenix.OdinInspector;
 using UnityEngine;
-using UnityEngine.Serialization;
 
 public enum MachineType { Spawner, Transformer, Trash }
 
@@ -12,12 +10,14 @@ public abstract class Machine : MonoBehaviour
 
     public abstract MachineType MachineType { get; }
 
+    [SerializeField] public ItemStorage RawMaterialStorage;
     [SerializeField] public ItemStorage ProductStorage;
-    [SerializeField, PropertyOrder(-1)] public ItemStorage RawMaterialStorage;
-
-    [SerializeField] protected ItemTransferSystem _transferSystem;
 
     [SerializeField] protected Animator _animator;
+
+    [Title("Feeling")] [SerializeField] protected float _transferTimerCooldown = .3f;
+    [SerializeField] protected float _delayBeforeStart = .1f;
+    [SerializeField] protected float _cooldownBetweenItems = .2f;
 
     protected ItemSpawner _itemSpawner;
 

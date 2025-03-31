@@ -1,5 +1,4 @@
 using System.Threading;
-using System.Threading.Tasks;
 using Cysharp.Threading.Tasks;
 using PoolSystem;
 using UnityEngine;
@@ -14,14 +13,12 @@ public class Item : MonoBehaviour, IInitializablePoolable<ItemData>
 
     public ItemType Type => _type;
 
-    public async UniTask MoveCurved(Vector3 pos)
+    public async UniTask MoveCurved(Vector3 pos, Vector3 angle, CurvedMoveOptions options)
     {
         _cts?.Cancel();
         _cts = new CancellationTokenSource();
 
-        await transform.MoveCurved(pos, angle: Vector3.zero, 10, .3f,
-                                   .2f, .15f,
-                                   _cts.Token);
+        await transform.MoveCurved(pos, angle, options, _cts.Token);
     }
 
     public void OnCreated()

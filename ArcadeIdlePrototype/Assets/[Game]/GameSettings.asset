@@ -1,0 +1,251 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 74241f592dd94fa68908db6002b80dc0, type: 3}
+  m_Name: GameSettings
+  m_EditorClassIdentifier: 
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects:
+    - {fileID: 1617751236074091076, guid: d67450c10df824d4b80aa88571ef83a9, type: 3}
+    - {fileID: 1617751236074091076, guid: 7423830754a83ca4484bab398b30d8a8, type: 3}
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes:
+    - Name: ItemSettings
+      Entry: 7
+      Data: 0|ItemSettings, Assembly-CSharp
+    - Name: PoolSettings
+      Entry: 7
+      Data: 1|PoolSystem.Pool`2+PoolSettings[[Item, Assembly-CSharp],[ItemType, Assembly-CSharp]],
+        Assembly-CSharp
+    - Name: Properties
+      Entry: 7
+      Data: 2|System.Collections.Generic.Dictionary`2[[ItemType, Assembly-CSharp],[PoolSystem.Pool`2+PoolProperties[[Item,
+        Assembly-CSharp],[ItemType, Assembly-CSharp]], Assembly-CSharp]], mscorlib
+    - Name: comparer
+      Entry: 7
+      Data: 3|System.Collections.Generic.EnumEqualityComparer`1[[ItemType, Assembly-CSharp]],
+        mscorlib
+    - Name: 
+      Entry: 12
+      Data: 0
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 12
+      Data: 2
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 3
+      Data: 0
+    - Name: $v
+      Entry: 7
+      Data: 4|PoolSystem.Pool`2+PoolProperties[[Item, Assembly-CSharp],[ItemType,
+        Assembly-CSharp]], Assembly-CSharp
+    - Name: Prefab
+      Entry: 10
+      Data: 0
+    - Name: FillOnInit
+      Entry: 5
+      Data: true
+    - Name: ExpansionSize
+      Entry: 3
+      Data: 15
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 3
+      Data: 1
+    - Name: $v
+      Entry: 7
+      Data: 5|PoolSystem.Pool`2+PoolProperties[[Item, Assembly-CSharp],[ItemType,
+        Assembly-CSharp]], Assembly-CSharp
+    - Name: Prefab
+      Entry: 10
+      Data: 1
+    - Name: FillOnInit
+      Entry: 5
+      Data: true
+    - Name: ExpansionSize
+      Entry: 3
+      Data: 15
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: TweenOptions
+      Entry: 7
+      Data: 6|CurvedMoveOptions, Assembly-CSharp
+    - Name: Speed
+      Entry: 4
+      Data: 5
+    - Name: MaxDuration
+      Entry: 4
+      Data: 0.6
+    - Name: MinDuration
+      Entry: 4
+      Data: 0.3
+    - Name: YDistance
+      Entry: 4
+      Data: 0
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: AIWorkerSettings
+      Entry: 7
+      Data: 7|AIWorkerSettings, Assembly-CSharp
+    - Name: MinItemCountRatioForTaskStart
+      Entry: 4
+      Data: 0.3
+    - Name: ItemTransferFlow
+      Entry: 7
+      Data: 8|System.Collections.Generic.Dictionary`2[[ItemType, Assembly-CSharp],[System.ValueTuple`2[[MachineType,
+        Assembly-CSharp],[System.Boolean, mscorlib]], mscorlib]], mscorlib
+    - Name: comparer
+      Entry: 7
+      Data: 9|System.Collections.Generic.EnumEqualityComparer`1[[ItemType, Assembly-CSharp]],
+        mscorlib
+    - Name: 
+      Entry: 12
+      Data: 0
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 12
+      Data: 2
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 3
+      Data: 0
+    - Name: $v
+      Entry: 7
+      Data: System.ValueTuple`2[[MachineType, Assembly-CSharp],[System.Boolean, mscorlib]],
+        mscorlib
+    - Name: Item1
+      Entry: 3
+      Data: 1
+    - Name: Item2
+      Entry: 5
+      Data: true
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 3
+      Data: 1
+    - Name: $v
+      Entry: 7
+      Data: System.ValueTuple`2[[MachineType, Assembly-CSharp],[System.Boolean, mscorlib]],
+        mscorlib
+    - Name: Item1
+      Entry: 3
+      Data: 2
+    - Name: Item2
+      Entry: 5
+      Data: true
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: TaskPriority
+      Entry: 7
+      Data: 10|System.ValueTuple`2[[MachineType, Assembly-CSharp, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null],[System.Boolean, mscorlib, Version=4.0.0.0,
+        Culture=neutral, PublicKeyToken=b77a5c561934e089]][], mscorlib
+    - Name: 
+      Entry: 12
+      Data: 2
+    - Name: 
+      Entry: 7
+      Data: System.ValueTuple`2[[MachineType, Assembly-CSharp],[System.Boolean, mscorlib]],
+        mscorlib
+    - Name: Item1
+      Entry: 3
+      Data: 1
+    - Name: Item2
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: System.ValueTuple`2[[MachineType, Assembly-CSharp],[System.Boolean, mscorlib]],
+        mscorlib
+    - Name: Item1
+      Entry: 3
+      Data: 0
+    - Name: Item2
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 

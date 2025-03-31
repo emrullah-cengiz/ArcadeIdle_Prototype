@@ -1,11 +1,8 @@
 using System;
 using System.Collections.Generic;
-using System.Threading;
 using Cysharp.Threading.Tasks;
-using DG.Tweening;
 using Sirenix.OdinInspector;
 using UnityEngine;
-using UnityEngine.Serialization;
 
 public enum StorageType { None, Collectable, Storable }
 
@@ -16,20 +13,22 @@ public class ItemStorage : MonoBehaviour
 {
     #region Serialized Fields
 
-    [SerializeField] protected StorageType _storageType;
+    [Title("References")] [SerializeField] private Transform _itemsContainer;
+    [SerializeField] public Transform AiWaitingPoint;
+
+    [Title("Base")] [SerializeField] protected StorageType _storageType;
     [SerializeField] private ItemType _itemType;
     [SerializeField] private int _capacity;
 
-    [SerializeField] [InfoBox("Enables machine-driven transfers on char interactions")]
+    [SerializeField, InfoBox("Enables machine-driven transfers on char interactions")]
     private bool _allowMachineTransfersOnAgentInteraction = true;
 
-    [SerializeField, MinValue(1)] private Vector2Int _layoutSize;
-    [SerializeField] private Vector3 _cellSize;
-    [SerializeField] private Transform _itemsContainer;
-    [SerializeField] public Transform AiWaitingPoint;
+    [Title("Placement")] [SerializeField, MinValue(1)]
+    private Vector2Int _layoutSize;
 
-    [FormerlySerializedAs("_tweenItemOnTaken")] [SerializeField]
-    private bool _tweenItemOnAdded;
+    [SerializeField] private Vector3 _cellSize;
+    [SerializeField] private bool _tweenItemOnAdded;
+    [SerializeField] private float _cooldownBetweenItems = .2f;
 
     #endregion
 
@@ -59,8 +58,13 @@ public class ItemStorage : MonoBehaviour
     #endregion
 
     protected List<Item> Items = new();
-
+    private ItemSettings _itemSettings;
     protected virtual void Awake() => Items = new List<Item>();
+
+    private void Start()
+    {
+        _itemSettings = ServiceLocator.Resolve<ItemSettings>();
+    }
 
     public async UniTask Push(Item item)
     {
@@ -72,8 +76,10 @@ public class ItemStorage : MonoBehaviour
             OnFullFilled?.Invoke();
 
         if (_tweenItemOnAdded)
-            item.MoveCurved(transform.position + GetItemPosition(Items.Count - 1)).Forget();
-        await UniTask.WaitForSeconds(.2f);
+            item.MoveCurved(_itemsContainer.transform.position + GetItemPosition(Items.Count - 1),
+                            Vector3.zero, _itemSettings.TweenOptions).Forget();
+
+        await UniTask.WaitForSeconds(_cooldownBetweenItems);
 
         OnItemPushed?.Invoke();
     }
@@ -128,6 +134,13 @@ public class ItemStorage : MonoBehaviour
             Destroy(item.gameObject);
 
         Items.Clear();
+    }
+
+    private void OnValidate()
+    {
+        int i = 0;
+        foreach (var item in Items)
+            item.transform.position = _itemsContainer.transform.position + GetItemPosition(i++);
     }
 #endif
 }

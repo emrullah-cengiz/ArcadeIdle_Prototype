@@ -160,8 +160,8 @@ GameObject:
   - component: {fileID: 611638349609402229}
   - component: {fileID: 1345401068063032419}
   - component: {fileID: 5725489675643886662}
-  - component: {fileID: 3365968851575756750}
   - component: {fileID: 4292064277237300064}
+  - component: {fileID: 3365968851575756750}
   m_Layer: 0
   m_Name: Character
   m_TagString: Untagged
@@ -257,6 +257,18 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 126
   m_CollisionDetection: 0
+--- !u!114 &4292064277237300064
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7250810760683694140}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 17ced02e1cd94f858901e85a7c0a2982, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &3365968851575756750
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -272,16 +284,3 @@ MonoBehaviour:
   _character: {fileID: 4292064277237300064}
   _characterItemStack: {fileID: 4774497419790772306}
   _itemTransferSystem: {fileID: 5767005247948938382}
---- !u!114 &4292064277237300064
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7250810760683694140}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 17ced02e1cd94f858901e85a7c0a2982, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _machineInteractionController: {fileID: 3365968851575756750}

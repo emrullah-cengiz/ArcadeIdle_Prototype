@@ -6,6 +6,7 @@ public class CharacterAnimatorController : MonoBehaviour
     [SerializeField] private NavMeshAgent _agent;
     [SerializeField] private Animator _animator;
     [SerializeField] private float _speedDampTime = 3f;
+
     private readonly int MOVE_SPEED_RATIO_PARAM = Animator.StringToHash("MoveSpeedRatio");
 
     private void Update() => SetMovementSpeed();

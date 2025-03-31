@@ -1,7 +1,5 @@
-using System;
 using Cysharp.Threading.Tasks;
 using UnityEngine;
-using UnityEngine.Serialization;
 
 public class CharacterMachineInteractionController : MonoBehaviour
 {

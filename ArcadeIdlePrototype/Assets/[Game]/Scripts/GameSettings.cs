@@ -16,6 +16,7 @@ public class GameSettings : SerializedScriptableObject
 public class ItemSettings
 {
     public Pool<Item, ItemType>.PoolSettings PoolSettings;
+    [Space] public CurvedMoveOptions TweenOptions;
 }
 
 [Serializable]

@@ -124,14 +124,11 @@
 -define:ODIN_INSPECTOR_3_1
 -define:ODIN_INSPECTOR_3_2
 -define:ODIN_INSPECTOR_3_3
--define:UNITASK_DOTWEEN_SUPPORT
 -define:UNITASK_TEXTMESHPRO_SUPPORT
 -define:CSHARP_7_OR_LATER
 -define:CSHARP_7_3_OR_NEWER
 -r:"Assets/Packages/System.Runtime.CompilerServices.Unsafe.6.1.0/lib/netstandard2.0/System.Runtime.CompilerServices.Unsafe.dll"
 -r:"Assets/Packages/ZLinq.0.7.3/lib/netstandard2.1/ZLinq.dll"
--r:"Assets/Plugins/Demigiant/DOTween/DOTween.dll"
--r:"Assets/Plugins/Demigiant/DOTween/Editor/DOTweenEditor.dll"
 -r:"Assets/Plugins/Sirenix/Assemblies/Sirenix.OdinInspector.Attributes.dll"
 -r:"Assets/Plugins/Sirenix/Assemblies/Sirenix.OdinInspector.Editor.dll"
 -r:"Assets/Plugins/Sirenix/Assemblies/Sirenix.Reflection.Editor.dll"
@@ -345,6 +342,10 @@
 -r:"C:/Program Files/Unity/Hub/Editor/2022.3.24f1/Editor/Data/NetStandard/compat/2.1.0/shims/netstandard/System.Xml.XPath.XDocument.dll"
 -r:"C:/Program Files/Unity/Hub/Editor/2022.3.24f1/Editor/Data/NetStandard/Extensions/2.0.0/System.Runtime.InteropServices.WindowsRuntime.dll"
 -r:"C:/Program Files/Unity/Hub/Editor/2022.3.24f1/Editor/Data/NetStandard/ref/2.1.0/netstandard.dll"
+-r:"C:/Program Files/Unity/Hub/Editor/2022.3.24f1/Editor/Data/PlaybackEngines/AndroidPlayer/Unity.Android.Gradle.dll"
+-r:"C:/Program Files/Unity/Hub/Editor/2022.3.24f1/Editor/Data/PlaybackEngines/AndroidPlayer/Unity.Android.GradleProject.dll"
+-r:"C:/Program Files/Unity/Hub/Editor/2022.3.24f1/Editor/Data/PlaybackEngines/AndroidPlayer/Unity.Android.Types.dll"
+-r:"C:/Program Files/Unity/Hub/Editor/2022.3.24f1/Editor/Data/PlaybackEngines/AndroidPlayer/UnityEditor.Android.Extensions.dll"
 -r:"C:/Program Files/Unity/Hub/Editor/2022.3.24f1/Editor/Data/PlaybackEngines/WindowsStandaloneSupport/UnityEditor.WindowsStandalone.Extensions.dll"
 -r:"Library/PackageCache/com.github-glitchenzo.nugetforunity@fe31ad0904/Editor/PluginAPI/NuGetForUnity.PluginAPI.dll"
 -r:"Library/PackageCache/com.unity.collab-proxy@2.7.1/Lib/Editor/log4netPlastic.dll"

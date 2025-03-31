@@ -1,4 +1,3 @@
-using System;
 using Cysharp.Threading.Tasks;
 
 public class SpawnerMachine : Machine
@@ -18,7 +17,7 @@ public class SpawnerMachine : Machine
     {
         while (enabled)
         {
-            await UniTask.WaitForSeconds(1);
+            await UniTask.WaitForSeconds(_transferTimerCooldown);
 
             Execute().Forget();
         }
@@ -30,7 +29,7 @@ public class SpawnerMachine : Machine
 
     protected override async UniTask Execute()
     {
-        if (!IsWorking && !ExecutionCondition())
+        if (IsWorking || !ExecutionCondition())
             return;
 
         SetWorking(true);
