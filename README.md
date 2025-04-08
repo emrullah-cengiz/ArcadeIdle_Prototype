@@ -1,1 +1,1 @@
-# NokoGames_Case
+# An Arcade Idle Prototype
